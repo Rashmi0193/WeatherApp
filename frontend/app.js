@@ -525,6 +525,7 @@ function renderRequests(records) {
         <button class="button secondary" data-edit="${record.id}">Edit</button>
         <button class="button secondary" data-delete="${record.id}">Delete</button>
         <button class="button secondary" data-map="${record.id}">Map</button>
+        <button class="button secondary" data-close-map="${record.id}">Close Map</button>
       </div>
       <div class="map-fallback" id="map-fallback-${record.id}" hidden>
         Map preview unavailable.
@@ -550,6 +551,9 @@ function renderRequests(records) {
     card.querySelector(`[data-map="${record.id}"]`).addEventListener("click", () =>
       loadMap(record)
     );
+    card.querySelector(`[data-close-map="${record.id}"]`).addEventListener("click", () =>
+      closeMap(record)
+    );
   });
 }
 
@@ -567,6 +571,16 @@ function loadMap(record) {
       frame.hidden = false;
     })
     .catch((err) => showCrudError(err.message));
+}
+
+function closeMap(record) {
+  const frame = document.getElementById(`map-${record.id}`);
+  const fallback = document.getElementById(`map-fallback-${record.id}`);
+  if (frame) {
+    frame.hidden = true;
+    frame.src = "";
+  }
+  if (fallback) fallback.hidden = true;
 }
 
 function buildMapEmbedUrl(lat, lon) {
