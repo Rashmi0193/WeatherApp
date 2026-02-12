@@ -6,7 +6,7 @@ const state = {
   editingId: null,
 };
 
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://weatherapp-7l5h.onrender.com";
 
 const elements = {
   locationInput: document.getElementById("locationInput"),
