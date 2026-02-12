@@ -526,10 +526,10 @@ function renderRequests(records) {
         <button class="button secondary" data-delete="${record.id}">Delete</button>
         <button class="button secondary" data-map="${record.id}">Map</button>
       </div>
+      <div class="map-fallback" id="map-fallback-${record.id}" hidden>
+        Map preview unavailable.
+      </div>
       <img class="map-preview" id="map-${record.id}" alt="Map preview" hidden />
-      <a class="hint" id="map-link-${record.id}" href="#" target="_blank" rel="noopener" hidden>
-        Open map in new tab
-      </a>
     `;
 
     elements.requestsList.appendChild(card);
@@ -550,22 +550,17 @@ function loadMap(record) {
   fetchApi(`${API_BASE}/api/map?lat=${record.latitude}&lon=${record.longitude}`)
     .then((data) => {
       const img = document.getElementById(`map-${record.id}`);
+      const fallback = document.getElementById(`map-fallback-${record.id}`);
       if (!img) return;
       img.referrerPolicy = "no-referrer";
       img.onerror = () => {
         img.hidden = true;
-        showCrudError("Map preview unavailable. Use the Open Map link instead.");
-        const link = document.getElementById(`map-link-${record.id}`);
-        if (link) link.hidden = false;
+        if (fallback) fallback.hidden = false;
+        showCrudError("Map preview unavailable. Please try again.");
       };
       img.src = data.mapUrl;
       img.hidden = false;
-
-      const link = document.getElementById(`map-link-${record.id}`);
-      if (link) {
-        link.href = data.mapLink || data.mapUrl;
-        link.hidden = false;
-      }
+      if (fallback) fallback.hidden = true;
     })
     .catch((err) => showCrudError(err.message));
 }
