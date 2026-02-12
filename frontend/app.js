@@ -529,7 +529,14 @@ function renderRequests(records) {
       <div class="map-fallback" id="map-fallback-${record.id}" hidden>
         Map preview unavailable.
       </div>
-      <img class="map-preview" id="map-${record.id}" alt="Map preview" hidden />
+      <iframe
+        class="map-preview"
+        id="map-${record.id}"
+        title="Map preview"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        hidden
+      ></iframe>
     `;
 
     elements.requestsList.appendChild(card);
@@ -549,18 +556,15 @@ function renderRequests(records) {
 function loadMap(record) {
   fetchApi(`${API_BASE}/api/map?lat=${record.latitude}&lon=${record.longitude}`)
     .then((data) => {
-      const img = document.getElementById(`map-${record.id}`);
+      const frame = document.getElementById(`map-${record.id}`);
       const fallback = document.getElementById(`map-fallback-${record.id}`);
-      if (!img) return;
-      img.referrerPolicy = "no-referrer";
-      img.onerror = () => {
-        img.hidden = true;
-        if (fallback) fallback.hidden = false;
-        showCrudError("Map preview unavailable. Please try again.");
+      if (!frame) return;
+      if (fallback) fallback.hidden = false;
+      frame.onload = () => {
+        if (fallback) fallback.hidden = true;
       };
-      img.src = data.mapUrl;
-      img.hidden = false;
-      if (fallback) fallback.hidden = true;
+      frame.src = data.mapEmbedUrl;
+      frame.hidden = false;
     })
     .catch((err) => showCrudError(err.message));
 }

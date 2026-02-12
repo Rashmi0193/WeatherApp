@@ -363,9 +363,17 @@ app.get("/api/map", (req, res) => {
   if (!lat || !lon) {
     return res.status(400).json({ error: "lat and lon are required." });
   }
-  const mapUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=11&size=600x300&markers=${lat},${lon},red-pushpin`;
-  const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=11/${lat}/${lon}`;
-  res.json({ mapUrl, mapLink });
+  const latitude = Number(lat);
+  const longitude = Number(lon);
+  const delta = 0.05;
+  const left = (longitude - delta).toFixed(5);
+  const right = (longitude + delta).toFixed(5);
+  const top = (latitude + delta).toFixed(5);
+  const bottom = (latitude - delta).toFixed(5);
+  const bbox = `${left},${bottom},${right},${top}`;
+  const mapEmbedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
+  const mapLink = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=11/${latitude}/${longitude}`;
+  res.json({ mapEmbedUrl, mapLink });
 });
 
 const port = process.env.PORT || 3001;
