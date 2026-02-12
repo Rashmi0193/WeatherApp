@@ -563,10 +563,23 @@ function loadMap(record) {
       frame.onload = () => {
         if (fallback) fallback.hidden = true;
       };
-      frame.src = data.mapEmbedUrl;
+      frame.src = data.mapEmbedUrl || buildMapEmbedUrl(record.latitude, record.longitude);
       frame.hidden = false;
     })
     .catch((err) => showCrudError(err.message));
+}
+
+function buildMapEmbedUrl(lat, lon) {
+  const latitude = Number(lat);
+  const longitude = Number(lon);
+  if (Number.isNaN(latitude) || Number.isNaN(longitude)) return "";
+  const delta = 0.05;
+  const left = (longitude - delta).toFixed(5);
+  const right = (longitude + delta).toFixed(5);
+  const top = (latitude + delta).toFixed(5);
+  const bottom = (latitude - delta).toFixed(5);
+  const bbox = `${left},${bottom},${right},${top}`;
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
 }
 
 init();
