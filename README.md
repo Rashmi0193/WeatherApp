@@ -82,4 +82,4 @@ Then open the local URL shown in your terminal.
 
 ## Notes
 - The forecast uses Open-Meteo daily values (max/min + weather code).
-- Unit toggle switches between °C and °F and re-fetches data.
+- Unit toggle switches between °C and °F and re-fetches data
