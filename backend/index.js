@@ -364,7 +364,8 @@ app.get("/api/map", (req, res) => {
     return res.status(400).json({ error: "lat and lon are required." });
   }
   const mapUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=11&size=600x300&markers=${lat},${lon},red-pushpin`;
-  res.json({ mapUrl });
+  const mapLink = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=11/${lat}/${lon}`;
+  res.json({ mapUrl, mapLink });
 });
 
 const port = process.env.PORT || 3001;

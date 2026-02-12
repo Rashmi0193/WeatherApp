@@ -527,6 +527,9 @@ function renderRequests(records) {
         <button class="button secondary" data-map="${record.id}">Map</button>
       </div>
       <img class="map-preview" id="map-${record.id}" alt="Map preview" hidden />
+      <a class="hint" id="map-link-${record.id}" href="#" target="_blank" rel="noopener" hidden>
+        Open map in new tab
+      </a>
     `;
 
     elements.requestsList.appendChild(card);
@@ -548,8 +551,21 @@ function loadMap(record) {
     .then((data) => {
       const img = document.getElementById(`map-${record.id}`);
       if (!img) return;
+      img.referrerPolicy = "no-referrer";
+      img.onerror = () => {
+        img.hidden = true;
+        showCrudError("Map preview unavailable. Use the Open Map link instead.");
+        const link = document.getElementById(`map-link-${record.id}`);
+        if (link) link.hidden = false;
+      };
       img.src = data.mapUrl;
       img.hidden = false;
+
+      const link = document.getElementById(`map-link-${record.id}`);
+      if (link) {
+        link.href = data.mapLink || data.mapUrl;
+        link.hidden = false;
+      }
     })
     .catch((err) => showCrudError(err.message));
 }
