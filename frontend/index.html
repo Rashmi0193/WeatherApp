@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="root">
+      <main class="app">
+        <header class="header">
+          <div>
+            <h1>Weather App</h1>
+            <p class="subtitle">Search by city, zip/postal code, or coordinates.</p>
+          </div>
+          <div class="units">
+            <span>Units</span>
+            <button id="unitToggle" class="button secondary">°F</button>
+          </div>
+        </header>
+
+        <section class="search">
+          <div class="search-row">
+            <input
+              id="locationInput"
+              type="text"
+              placeholder="City, Zip, or Lat, Lon (e.g., 37.7749, -122.4194)"
+              aria-label="Location"
+            />
+            <button id="searchBtn" class="button">Search</button>
+            <button id="geoBtn" class="button secondary">Use Current Location</button>
+          </div>
+          <p class="hint">Examples: “New York”, “94016”, “37.7749, -122.4194”.</p>
+          <div id="error" class="error" role="alert"></div>
+        </section>
+
+        <section id="currentSection" class="current-card" hidden>
+          <div class="current-main">
+            <div>
+              <h2 id="placeName">—</h2>
+              <div id="timestamp" class="subtitle">—</div>
+            </div>
+            <img id="currentIcon" alt="weather icon" />
+          </div>
+          <div class="current-details">
+            <div>
+              <div class="label">Temperature</div>
+              <div id="temp">—</div>
+            </div>
+            <div>
+              <div class="label">Feels Like</div>
+              <div id="feelsLike">—</div>
+            </div>
+            <div>
+              <div class="label">Humidity</div>
+              <div id="humidity">—</div>
+            </div>
+            <div>
+              <div class="label">Wind</div>
+              <div id="wind">—</div>
+            </div>
+            <div>
+              <div class="label">Conditions</div>
+              <div id="conditions">—</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="forecastSection" class="forecast" hidden>
+          <h3>5-Day Forecast</h3>
+          <div id="forecastGrid" class="forecast-grid"></div>
+        </section>
+
+        <section class="forecast">
+          <h3>Saved Weather Requests (CRUD)</h3>
+          <div class="crud-form">
+            <input
+              id="rangeLocation"
+              type="text"
+              placeholder="Location for saved query"
+              aria-label="Saved location"
+            />
+            <input id="rangeStart" type="date" aria-label="Start date" />
+            <input id="rangeEnd" type="date" aria-label="End date" />
+            <button id="saveRangeBtn" class="button">Save Query</button>
+            <button id="updateRangeBtn" class="button secondary" disabled>Update</button>
+            <button id="cancelUpdateBtn" class="button secondary" disabled>Cancel</button>
+          </div>
+          <div id="crudError" class="error" role="alert"></div>
+          <div class="export-row">
+            <a id="exportCsv" class="button secondary" href="#" download>Export CSV</a>
+            <span class="hint">Exports all saved requests from the database.</span>
+          </div>
+          <div id="requestsList" class="requests-list"></div>
+        </section>
+
+        <section class="about">
+          <strong id="authorName">Your Name</strong>
+          <p id="pmDescription" class="pm-desc">
+            Product Manager Accelerator description goes here.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" src="./app.js"></script>
+  </body>
+</html>

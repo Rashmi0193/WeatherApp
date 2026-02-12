@@ -1,0 +1,8 @@
+{
+  "name": "weatherapp",
+  "private": true,
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npx serve frontend"
+  }
+}
