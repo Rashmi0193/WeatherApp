@@ -1,6 +1,6 @@
 # Weather App (React-style Frontend)
 
-This is a lightweight weather app built for the PM Accelerator assessment. It supports:
+This is a weather app built for the PM Accelerator assessment. It supports:
 - Search by city, zip/postal code, or GPS coordinates
 - Current weather with key details
 - 5-day forecast (based on Open-Meteo daily data)
